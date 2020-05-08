@@ -38,8 +38,9 @@ export default interface User {
     emailAddress: string
     firstName: string
     lastName: string
-    testnumber: number?
+    testnumber?: number
 }
+
 
 ```
 
