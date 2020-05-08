@@ -6,7 +6,7 @@ Copy the contents of this repository to the DataGrip scripts directory - on Wind
 
 # How to use
 
-Right click on your table and find this:
+Right click on your table and find the scripts in the "scripted extensions" context menu:
 
 ![image](https://user-images.githubusercontent.com/4477538/81436167-4eed7580-9169-11ea-83bb-04815dd887ad.png)
 
