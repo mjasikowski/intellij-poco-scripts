@@ -19,28 +19,34 @@ typeMapping = [
 
 notNullableTypes = [ "string", "byte[]" ]
 
-FILES.chooseDirectoryAndSave("Choose directory", "Choose where to store generated files") { dir ->
-    SELECTION.filter { it instanceof DasTable && it.getKind() == ObjectKind.TABLE }.each { generate(it, dir) }
-}
+tempString = '';
 
-def generate(table, dir) {
-    def className = csharpName(table.getName())
+SELECTION.filter { it instanceof DasTable && it.getKind() == ObjectKind.TABLE }.each { generate(it) }
+CLIPBOARD.set(tempString)
+
+def generate(table) {
+    def className = pascalCase(table.getName())
     def fields = calcFields(table)
-    new File(dir, className + ".cs").withPrintWriter { out -> generate(out, className, fields, table) }
+
+    StringWriter out = new StringWriter();
+
+    if (tempString != '') {
+        out.println ""
+    }
+
+    generate(out, className, fields, table);
+        
+    tempString += out.toString();
 }
 
 def generate(out, className, fields, table) {
-    out.println "using System;"
-    out.println "using Dapper;"
-    out.println ""
-    out.println "[Table(\"${table.getName()}\")]"
-    out.println "public class $className"
-    out.println "{"
+    out.println "   public class $className"
+    out.println "   {"
 
     fields.each() {
 
         if (it.primarykey)
-        out.println "    [Key]"
+        out.println "       [Key]"
 
         if (it.comment != "")
         {
@@ -48,12 +54,9 @@ def generate(out, className, fields, table) {
             out.println "    //${it.comment}";
         }
 
-        if (Case.LOWER.apply(it.colname) != Case.LOWER.apply(it.name))
-            out.println "    [Column(\"${it.colname}\")]"
-        
-        out.println "    public ${it.type} ${it.name} { get; set; }"
+        out.println "       public ${it.type} ${it.name} { get; set; }"
     }
-    out.println "}"
+    out.println "   }"
 }
 
 def calcFields(table) {
@@ -67,13 +70,13 @@ def calcFields(table) {
                            primarykey : pk != null && pk != "" && pk.contains("(${col.getName()})") ? true : false,
                            colname : col.getName(),
                            spec : spec,
-                           name : csharpName(col.getName()),
+                           name : pascalCase(col.getName()),
                            type : typeStr + nullable,
                            comment : col.comment ? col.comment : ""]]
     }
 }
 
-def csharpName(str) {
+def pascalCase(str) {
     com.intellij.psi.codeStyle.NameUtil.splitNameIntoWords(str)
             .collect { Case.LOWER.apply(it).capitalize() }
             .join("")

@@ -4,17 +4,17 @@ import com.intellij.database.util.Case
 import com.intellij.database.util.DasUtil
 
 typeMapping = [
-        (~/(?i)^bit$|tinyint\(1\)/)                       : "boolean",
-        (~/(?i)^tinyint$/)                                : "number",
-        (~/(?i)^uniqueidentifier|uuid$/)                  : "string",
-        (~/(?i)^int|integer$/)                            : "number",
-        (~/(?i)^bigint$/)                                 : "number",
-        (~/(?i)^varbinary|image$/)                        : "any[]",
-        (~/(?i)^double|float|real$/)                      : "number",
-        (~/(?i)^decimal|money|numeric|smallmoney$/)       : "number",
-        (~/(?i)^datetimeoffset$/)                         : "Date",
-        (~/(?i)^datetime|datetime2|timestamp|date|time$/) : "Date",
-        (~/(?i)^char$/)                                   : "string",
+        (~/(?i)^bit$|tinyint\(1\)/)                       : "bool",
+        (~/(?i)^tinyint$/)                                : "byte",
+        (~/(?i)^uniqueidentifier|uuid$/)                  : "Guid",
+        (~/(?i)^int|integer$/)                            : "int",
+        (~/(?i)^bigint$/)                                 : "long",
+        (~/(?i)^varbinary|image$/)                        : "byte[]",
+        (~/(?i)^double|float|real$/)                      : "double",
+        (~/(?i)^decimal|money|numeric|smallmoney$/)       : "decimal",
+        (~/(?i)^datetimeoffset$/)                         : "DateTimeOffset",
+        (~/(?i)^datetime|datetime2|timestamp|date|time$/) : "DateTime",
+        (~/(?i)^char$/)                                   : "char",
 ]
 
 notNullableTypes = [ "string", "byte[]" ]
@@ -24,29 +24,31 @@ FILES.chooseDirectoryAndSave("Choose directory", "Choose where to store generate
 }
 
 def generate(table, dir) {
-    def className = tsName(table.getName())
+    def className = pascalCase(table.getName())
     def fields = calcFields(table)
-    new File(dir, "I" + className + ".ts").withPrintWriter { out -> generate(out, className, fields, table) }
+    new File(dir, className + ".cs").withPrintWriter { out -> generate(out, className, fields, table) }
 }
 
 def generate(out, className, fields, table) {
-    out.println "interface I$className"
+    out.println "using System;"
+    out.println "using Dapper;"
+    out.println ""
+    out.println "[Table(\"${table.getName()}\")]"
+    out.println "public class $className"
     out.println "{"
 
     fields.each() {
+
+        if (it.primarykey)
+        out.println "    [Key]"
 
         if (it.comment != "")
         {
             out.println "";
             out.println "    //${it.comment}";
         }
-        
-        def line = "    ${it.name} : ${it.type}"
 
-        if (Case.LOWER.apply(it.colname) != Case.LOWER.apply(it.varName))
-            line += " /* DB column: $it.colname */"
-
-        out.println "${line}"
+        out.println "    public ${it.type} ${it.name} { get; set; }"
     }
     out.println "}"
 }
@@ -62,14 +64,13 @@ def calcFields(table) {
                            primarykey : pk != null && pk != "" && pk.contains("(${col.getName()})") ? true : false,
                            colname : col.getName(),
                            spec : spec,
-                           varName : tsName(col.getName()),
-                           name : tsName(col.getName()) + nullable,
-                           type : typeStr,
+                           name : pascalCase(col.getName()),
+                           type : typeStr + nullable,
                            comment : col.comment ? col.comment : ""]]
     }
 }
 
-def tsName(str) {
+def pascalCase(str) {
     com.intellij.psi.codeStyle.NameUtil.splitNameIntoWords(str)
             .collect { Case.LOWER.apply(it).capitalize() }
             .join("")
