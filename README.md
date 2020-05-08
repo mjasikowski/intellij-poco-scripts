@@ -31,13 +31,13 @@ Copy the contents of this repository to the DataGrip scripts directory - on Wind
 
 ```typescript
 export default interface User {
-    userId: string,
-    roleId: string,
-    userLogin: string,
-    passwordHash: string,
-    emailAddress: string,
-    firstName: string,
-    lastName: string,
+    userId: string
+    roleId: string
+    userLogin: string
+    passwordHash: string
+    emailAddress: string
+    firstName: string
+    lastName: string
     testnumber: number?
 }
 
