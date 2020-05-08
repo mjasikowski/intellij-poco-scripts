@@ -4,7 +4,13 @@ A set of Groovy scripts for DataGrip to export tables to C# classes and TypeScri
 # How to install
 Copy the contents of this repository to the DataGrip scripts directory - on Windows that's most likely C:\Users\_username_\.DataGrip2019.2\config\extensions\com.intellij.database\schema
 
-# Example
+# How to use
+
+Right click on your table and find this:
+
+![image](https://user-images.githubusercontent.com/4477538/81436167-4eed7580-9169-11ea-83bb-04815dd887ad.png)
+
+# Example output
 
 ## Table
 
