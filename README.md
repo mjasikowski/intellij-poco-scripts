@@ -40,9 +40,7 @@ export default interface User {
     lastName: string
     testnumber?: number
 }
-
-
 ```
 
-#License
+# License
 You are licensed to do whatever the hell you want with this script, though it would be nice if you'd credit me if you use it.
