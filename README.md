@@ -13,18 +13,18 @@ Copy the contents of this repository to the DataGrip scripts directory - on Wind
 ## C# (Dapper)
 
 ```c#
-   public class User
-   {
-       [Key]
-       public Guid UserId { get; set; }
-       public Guid RoleId { get; set; }
-       public string UserLogin { get; set; }
-       public string PasswordHash { get; set; }
-       public string EmailAddress { get; set; }
-       public string FirstName { get; set; }
-       public string LastName { get; set; }
-       public int? Testnumber { get; set; }
-   }
+public class User
+{
+    [Key]
+    public Guid UserId { get; set; }
+    public Guid RoleId { get; set; }
+    public string UserLogin { get; set; }
+    public string PasswordHash { get; set; }
+    public string EmailAddress { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public int? Testnumber { get; set; }
+}
 ```
 
 ## Typescript
