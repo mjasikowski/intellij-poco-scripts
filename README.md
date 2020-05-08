@@ -29,7 +29,7 @@ Copy the contents of this repository to the DataGrip scripts directory - on Wind
 
 ## Typescript
 
-```ts
+```typescript
 export default interface User {
     userId: string
     roleId: string
