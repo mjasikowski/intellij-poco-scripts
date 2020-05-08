@@ -43,4 +43,4 @@ export default interface User {
 ```
 
 # License
-You are licensed to do whatever the hell you want with this script, though it would be nice if you'd credit me if you use it.
+You are licensed to do whatever the hell you want with those scripts, though it would be nice if you'd credit me if you use it.
