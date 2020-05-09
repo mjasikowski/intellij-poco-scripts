@@ -41,7 +41,7 @@ def generate(out, className, fields, table) {
             out.println "    //${it.comment}";
         }
         
-        def line = "    ${it.name} : ${it.type}"
+        def line = "    ${it.name}: ${it.type}"
 
         if (it.comment != "")
         {
@@ -64,8 +64,8 @@ def calcFields(table) {
                            primarykey : pk != null && pk != "" && pk.contains("(${col.getName()})") ? true : false,
                            colname : col.getName(),
                            spec : spec,
-                           name : camelCase(col.getName()),
-                           type : typeStr + nullable,
+                           name : camelCase(col.getName())  + nullable,
+                           type : typeStr,
                            comment : col.comment ? col.comment : ""]]
     }
 }
