@@ -1,8 +1,8 @@
-# Datagrip POCO Groovy scripts
-A set of Groovy scripts for DataGrip to export tables to C# classes for Dapper and TypeScript interfaces. Tested on PostgreSQL and MS SQL.
+# IntelliJ POCO Groovy scripts
+A set of Groovy scripts for IntelliJ related products to export tables to C# classes for Dapper and TypeScript interfaces. Tested on PostgreSQL and MS SQL on DataGrip and Rider.
 
 # How to install
-Copy the contents of this repository to the DataGrip scripts directory - on Windows that's most likely C:\Users\_username_\.DataGrip2019.2\config\extensions\com.intellij.database\schema
+Copy the contents of this repository to your scrpts directory - on DataGrip for Windows that's most likely C:\Users\_username_\.DataGrip2019.2\config\extensions\com.intellij.database\schema
 
 # How to use
 
