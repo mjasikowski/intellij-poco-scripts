@@ -56,7 +56,14 @@ def generate(out, className, fields, table) {
 def calcFields(table) {
     DasUtil.getColumns(table).reduce([]) { fields, col ->
         def spec = Case.LOWER.apply(col.getDataType().getSpecification())
+        def isArray = spec.contains('[]')
         def typeStr = typeMapping.find { p, t -> p.matcher(spec).find() }?.value ?: "string"
+
+        if (isArray) 
+        {
+            typeStr = "List<${typeStr}>"
+        }
+        
         def nullable = col.isNotNull() || typeStr in notNullableTypes ? "" : "?"
         def pk = DasUtil.getPrimaryKey(table).toString();
 

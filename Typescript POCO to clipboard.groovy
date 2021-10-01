@@ -4,7 +4,7 @@ import com.intellij.database.util.Case
 import com.intellij.database.util.DasUtil
 
 typeMapping = [
-        (~/(?i)^bit$|tinyint\(1\)/)                       : "boolean",
+        (~/(?i)^bit$|boolean|tinyint\(1\)/)               : "boolean",
         (~/(?i)^tinyint$/)                                : "number",
         (~/(?i)^uniqueidentifier|uuid$/)                  : "string",
         (~/(?i)^int|integer$/)                            : "number",
@@ -12,8 +12,8 @@ typeMapping = [
         (~/(?i)^varbinary|image$/)                        : "any[]",
         (~/(?i)^double|float|real$/)                      : "number",
         (~/(?i)^decimal|money|numeric|smallmoney$/)       : "number",
-        (~/(?i)^datetimeoffset$/)                         : "Date",
-        (~/(?i)^datetime|datetime2|timestamp|date|time$/) : "Date",
+        (~/(?i)^datetimeoffset$/)                         : "string",
+        (~/(?i)^datetime|datetime2|timestamp|date|time$/) : "string",
         (~/(?i)^char$/)                                   : "string",
 ]
 
@@ -64,9 +64,17 @@ def generate(out, className, fields, table) {
 def calcFields(table) {
     DasUtil.getColumns(table).reduce([]) { fields, col ->
         def spec = Case.LOWER.apply(col.getDataType().getSpecification())
+                def isArray = spec.contains('[]')
         def typeStr = typeMapping.find { p, t -> p.matcher(spec).find() }?.value ?: "string"
+
+        if (isArray) 
+        {
+            typeStr = "${typeStr}[]"
+        }
+
         def nullable = col.isNotNull() || typeStr in notNullableTypes ? "" : "?"
         def pk = DasUtil.getPrimaryKey(table).toString();
+        
 
         fields += [[
                            primarykey : pk != null && pk != "" && pk.contains("(${col.getName()})") ? true : false,

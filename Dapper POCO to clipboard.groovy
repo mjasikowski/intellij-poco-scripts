@@ -14,7 +14,7 @@ typeMapping = [
         (~/(?i)^decimal|money|numeric|smallmoney$/)       : "decimal",
         (~/(?i)^datetimeoffset$/)                         : "DateTimeOffset",
         (~/(?i)^datetime|datetime2|timestamp|date|time$/) : "DateTime",
-        (~/(?i)^char$/)                                   : "char",
+        (~/(?i)^char$/)                                   : "char"
 ]
 
 notNullableTypes = [ "string", "byte[]" ]
@@ -62,7 +62,14 @@ def generate(out, className, fields, table) {
 def calcFields(table) {
     DasUtil.getColumns(table).reduce([]) { fields, col ->
         def spec = Case.LOWER.apply(col.getDataType().getSpecification())
+        def isArray = spec.contains('[]')
         def typeStr = typeMapping.find { p, t -> p.matcher(spec).find() }?.value ?: "string"
+
+        if (isArray) 
+        {
+            typeStr = "List<${typeStr}>"
+        }
+
         def nullable = col.isNotNull() || typeStr in notNullableTypes ? "" : "?"
         def pk = DasUtil.getPrimaryKey(table).toString();
 
