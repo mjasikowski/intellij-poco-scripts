@@ -64,8 +64,8 @@ def generate(out, className, fields, table) {
 def calcFields(table) {
     DasUtil.getColumns(table).reduce([]) { fields, col ->
         def spec = Case.LOWER.apply(col.getDataType().getSpecification())
-                def isArray = spec.contains('[]')
-        def typeStr = typeMapping.find { p, t -> p.matcher(spec).find() }?.value ?: "string"
+        def isArray = spec.contains('[]')
+        def typeStr = typeMapping.find { p, t -> p.matcher(spec.replace("[]", "")).find() }?.value ?: "string"
 
         if (isArray) 
         {
