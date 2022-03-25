@@ -4,7 +4,7 @@ import com.intellij.database.util.Case
 import com.intellij.database.util.DasUtil
 
 typeMapping = [
-        (~/(?i)^bit$|tinyint\(1\)/)                       : "bool",
+        (~/(?i)^bit$|boolean|tinyint\(1\)/)               : "bool",
         (~/(?i)^tinyint$/)                                : "byte",
         (~/(?i)^uniqueidentifier|uuid$/)                  : "Guid",
         (~/(?i)^int|integer$/)                            : "int",
@@ -14,7 +14,7 @@ typeMapping = [
         (~/(?i)^decimal|money|numeric|smallmoney$/)       : "decimal",
         (~/(?i)^datetimeoffset$/)                         : "DateTimeOffset",
         (~/(?i)^datetime|datetime2|timestamp|date|time$/) : "DateTime",
-        (~/(?i)^char$/)                                   : "char"
+        (~/(?i)^char$/)                                   : "char",
 ]
 
 notNullableTypes = [ "string", "byte[]" ]

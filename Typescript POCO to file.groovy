@@ -4,17 +4,17 @@ import com.intellij.database.util.Case
 import com.intellij.database.util.DasUtil
 
 typeMapping = [
-        (~/(?i)^bit$|boolean|tinyint\(1\)/)               : "boolean",
-        (~/(?i)^tinyint$/)                                : "number",
-        (~/(?i)^uniqueidentifier|uuid$/)                  : "string",
-        (~/(?i)^int|integer$/)                            : "number",
-        (~/(?i)^bigint$/)                                 : "number",
-        (~/(?i)^varbinary|image$/)                        : "any[]",
-        (~/(?i)^double|float|real$/)                      : "number",
-        (~/(?i)^decimal|money|numeric|smallmoney$/)       : "number",
-        (~/(?i)^datetimeoffset$/)                         : "string",
-        (~/(?i)^datetime|datetime2|timestamp|date|time$/) : "string",
-        (~/(?i)^char$/)                                   : "string",
+        (~/(?i)^bit$|boolean|tinyint\(1\)/)               : "bool",
+        (~/(?i)^tinyint$/)                                : "byte",
+        (~/(?i)^uniqueidentifier|uuid$/)                  : "Guid",
+        (~/(?i)^int|integer$/)                            : "int",
+        (~/(?i)^bigint$/)                                 : "long",
+        (~/(?i)^varbinary|image$/)                        : "byte[]",
+        (~/(?i)^double|float|real$/)                      : "double",
+        (~/(?i)^decimal|money|numeric|smallmoney$/)       : "decimal",
+        (~/(?i)^datetimeoffset$/)                         : "DateTimeOffset",
+        (~/(?i)^datetime|datetime2|timestamp|date|time$/) : "DateTime",
+        (~/(?i)^char$/)                                   : "char",
 ]
 
 notNullableTypes = [ "string", "byte[]" ]

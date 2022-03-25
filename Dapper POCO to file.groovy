@@ -4,7 +4,7 @@ import com.intellij.database.util.Case
 import com.intellij.database.util.DasUtil
 
 typeMapping = [
-        (~/(?i)^bit$|tinyint\(1\)/)                       : "bool",
+        (~/(?i)^bit$|boolean|tinyint\(1\)/)               : "bool",
         (~/(?i)^tinyint$/)                                : "byte",
         (~/(?i)^uniqueidentifier|uuid$/)                  : "Guid",
         (~/(?i)^int|integer$/)                            : "int",
